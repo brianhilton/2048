@@ -9,7 +9,7 @@ public class DesktopLauncher {
 	public static void main (String[] arg) {
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 		config.setForegroundFPS(60);
-		config.setTitle("2048");
+		config.setTitle("2048 Game");
 		config.setWindowedMode(480, 480);
 		new Lwjgl3Application(new Game2048(), config);
 	}
