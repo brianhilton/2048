@@ -208,7 +208,8 @@ public class Game2048 extends ApplicationAdapter {
 		if (Gdx.input.isKeyJustPressed(Input.Keys.A)) {
 			translateArray(2);
 			spawnTile();
-		}if (Gdx.input.isKeyJustPressed(Input.Keys.D)) {
+		}
+		if (Gdx.input.isKeyJustPressed(Input.Keys.D)) {
 			translateArray(4);
 			spawnTile();
 		}
