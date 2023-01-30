@@ -16,6 +16,7 @@ public class Game2048 extends ApplicationAdapter {
 	private Texture numberSquare;
 	private Array<Array<Integer>> gameBoard;
 	private boolean lost;
+	private boolean tileMoved;
 	private BitmapFont font;
 
 	private void spawnTile() {
@@ -66,6 +67,7 @@ public class Game2048 extends ApplicationAdapter {
 							if (gameBoard.get(i).get(y) != 0) {
 								if (gameBoard.get(i).get(j) == gameBoard.get(i).get(y)) {
 									gameBoard.get(i).set(y, gameBoard.get(i).get(y) * 2);
+									tileMoved = true;
 									current = 0;
 								}
 
@@ -74,8 +76,17 @@ public class Game2048 extends ApplicationAdapter {
 							}
 
 						}
+
 						gameBoard.get(i).set(j, 0);
 						gameBoard.get(i).set(moveY, current);
+
+						if (gameBoard.get(i).get(j) != current) {
+							tileMoved = true;
+							//System.out.println("We have moved a tile. (" + i + ", " + moveY + ") has been set to " + current);
+						}
+
+
+
 					}
 				}
 				break;
@@ -93,6 +104,7 @@ public class Game2048 extends ApplicationAdapter {
 							if (x != i && gameBoard.get(x).get(j) != 0) {
 								if (gameBoard.get(i).get(j) == gameBoard.get(x).get(j)) {
 									gameBoard.get(x).set(j, gameBoard.get(x).get(j) * 2);
+									tileMoved = true;
 									current = 0;
 								}
 								moveX = x + 1;
@@ -103,6 +115,11 @@ public class Game2048 extends ApplicationAdapter {
 
 						gameBoard.get(i).set(j, 0);
 						gameBoard.get(moveX).set(j, current);
+
+						if (gameBoard.get(i).get(j) != current) {
+							tileMoved = true;
+							//System.out.println("We have moved a tile. (" + i + ", " + moveX + ") has been set to " + current);
+						}
 					}
 				}
 				break;
@@ -120,6 +137,7 @@ public class Game2048 extends ApplicationAdapter {
 							if (y != j && gameBoard.get(i).get(y) != 0) {
 								if (gameBoard.get(i).get(j) == gameBoard.get(i).get(y)) {
 									gameBoard.get(i).set(y, gameBoard.get(i).get(y) * 2);
+									tileMoved = true;
 									current = 0;
 								}
 
@@ -130,6 +148,12 @@ public class Game2048 extends ApplicationAdapter {
 						}
 						gameBoard.get(i).set(j, 0);
 						gameBoard.get(i).set(moveY, current);
+
+						if (gameBoard.get(i).get(j) != current) {
+							tileMoved = true;
+							//System.out.println("We have moved a tile. (" + i + ", " + moveY + ") has been set to " + current);
+						}
+
 					}
 				}
 				break;
@@ -147,6 +171,7 @@ public class Game2048 extends ApplicationAdapter {
 							if (x != i && gameBoard.get(x).get(j) != 0) {
 								if (gameBoard.get(i).get(j) == gameBoard.get(x).get(j)) {
 									gameBoard.get(x).set(j, gameBoard.get(x).get(j) * 2);
+									tileMoved = true;
 									current = 0;
 								}
 
@@ -158,6 +183,11 @@ public class Game2048 extends ApplicationAdapter {
 
 						gameBoard.get(i).set(j, 0);
 						gameBoard.get(moveX).set(j, current);
+
+						if (gameBoard.get(i).get(j) != current) {
+							tileMoved = true;
+							//System.out.println("We have moved a tile. (" + i + ", " + moveX + ") has been set to " + current);
+						}
 					}
 				}
 				break;
@@ -171,6 +201,7 @@ public class Game2048 extends ApplicationAdapter {
 		numberSquare = new Texture(Gdx.files.internal("number_square.png"));
 		lost = false;
 		font = new BitmapFont();
+		tileMoved = false;
 
 		gameBoard = new Array<Array<Integer>>();
 		for (int i = 0; i < 4; ++i) {
@@ -180,6 +211,8 @@ public class Game2048 extends ApplicationAdapter {
 			}
 		}
 		spawnTile();
+		//gameBoard.get(0).set(3, 8);
+		//gameBoard.get(0).set(0, 4);
 	}
 
 	@Override
@@ -199,19 +232,31 @@ public class Game2048 extends ApplicationAdapter {
 
 		if (Gdx.input.isKeyJustPressed(Input.Keys.W)) {
 			translateArray(1);
-			spawnTile();
+			if (tileMoved) {
+				spawnTile();
+				tileMoved = false;
+			}
 		}
 		if (Gdx.input.isKeyJustPressed(Input.Keys.S)) {
 			translateArray(3);
-			spawnTile();
+			if (tileMoved) {
+				spawnTile();
+				tileMoved = false;
+			}
 		}
 		if (Gdx.input.isKeyJustPressed(Input.Keys.A)) {
 			translateArray(2);
-			spawnTile();
+			if (tileMoved) {
+				spawnTile();
+				tileMoved = false;
+			}
 		}
 		if (Gdx.input.isKeyJustPressed(Input.Keys.D)) {
 			translateArray(4);
-			spawnTile();
+			if (tileMoved) {
+				spawnTile();
+				tileMoved = false;
+			}
 		}
 
 
